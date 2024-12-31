@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://www.gstatic.com/firebasejs/7.21.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.21.0/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.21.0/firebase-database.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.21.0/firebase-storage.js"></script>
+    <link rel="stylesheet" href="style.css">
+    <title>Email Verification</title>
+</head>
+<body>
+    <div id="container">
+        <img id="logo-Img" src="profile.jpg">
+        <h1 id="main-Text">Verifying your email...</h1>
+    </div>
+    <script type="module">
+        const firebaseConfig = {
+            apiKey: "AIzaSyCQD712D3aH1Ku6yMdpJ8rdIZpI5YkF4g8",
+            authDomain: "mapbox-8554a.firebaseapp.com",
+            databaseURL: "https://mapbox-8554a-default-rtdb.firebaseio.com",
+            projectId: "mapbox-8554a",
+            storageBucket: "mapbox-8554a.appspot.com",
+            messagingSenderId: "1006740104953",
+            appId: "1:1006740104953:web:695a8148416f6f3b3a2428",
+            measurementId: "G-DTCXQE2S90"
+        };
+
+        firebase.initializeApp(firebaseConfig);
+
+        const containerElement = document.getElementById("container")
+    
+        const urlParams = new URLSearchParams(window.location.search);
+        const actionCode = urlParams.get('oobCode');
+    
+        if (actionCode) {
+            firebase.auth().applyActionCode(actionCode)
+            .then(() => {
+                containerElement.innerHTML = '<div id="container"><img id="logo-Img" src="profile.jpg"><h1 id="main-Text">Email Verified Successfully!</h1><h1 id="sub-Text">Please return to the app and continue setting up your account.</h1></div>';
+            })
+            .catch(error => {
+                containerElement.innerHTML = `<div id="container"><img id="logo-Img" src="profile.jpg"><h1 id="main-Text">Error Verifying Your Email.</h1><h1 id="sub-Text-Error">"${error.code}"</h1><h1 id="sub-Text">Please try again.</h1></div>`;
+            });
+        } else {
+            containerElement.innerHTML = '<div id="container"><img id="logo-Img" src="profile.jpg"><h1 id="main-Text">Invalid Verification Link</h1><h1 id="sub-Text">Please return to the app and try again.</h1></div>';
+        }
+    </script>
+</body>
+</html>
