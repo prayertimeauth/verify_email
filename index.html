@@ -4,10 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script type="module">
-        // Importing the required Firebase modules
+        // Import the required Firebase modules
         import { initializeApp } from "https://www.gstatic.com/firebasejs/9.21.0/firebase-app.js";
         import { getAuth, applyActionCode } from "https://www.gstatic.com/firebasejs/9.21.0/firebase-auth.js";
-
+    
         // Firebase configuration object
         const firebaseConfig = {
             apiKey: "AIzaSyCQD712D3aH1Ku6yMdpJ8rdIZpI5YkF4g8",
@@ -19,32 +19,30 @@
             appId: "1:1006740104953:web:695a8148416f6f3b3a2428",
             measurementId: "G-DTCXQE2S90"
         };
-
-        // Initialize Firebase
+    
+        // Initialize Firebase app
         const app = initializeApp(firebaseConfig);
-        const auth = getAuth(app);
-
-        // Getting the container to display results
+        const auth = getAuth(app);  // Initialize Firebase Auth
+    
         const containerElement = document.getElementById("container");
-
-        // Getting the action code from the URL
+    
         const urlParams = new URLSearchParams(window.location.search);
         const actionCode = urlParams.get('oobCode');
-
+    
         if (actionCode) {
             console.log('Action Code:', actionCode);
             applyActionCode(auth, actionCode)
-            .then(() => {
-                containerElement.innerHTML = '<div id="container"><img id="logo-Img" src="profile.jpg"><h1 id="main-Text">Email Verified Successfully!</h1><h1 id="sub-Text">Please return to the app and continue setting up your account.</h1></div>';
-            })
-            .catch(error => {
-                console.log(error);
-                containerElement.innerHTML = `<div id="container"><img id="logo-Img" src="profile.jpg"><h1 id="main-Text">Error Verifying Your Email.</h1><h1 id="sub-Text-Error">"${error.code}"</h1><h1 id="sub-Text">Please try again.</h1></div>`;
-            });
+                .then(() => {
+                    containerElement.innerHTML = '<div id="container"><img id="logo-Img" src="profile.jpg"><h1 id="main-Text">Email Verified Successfully!</h1><h1 id="sub-Text">Please return to the app and continue setting up your account.</h1></div>';
+                })
+                .catch(error => {
+                    console.log(error);
+                    containerElement.innerHTML = `<div id="container"><img id="logo-Img" src="profile.jpg"><h1 id="main-Text">Error Verifying Your Email.</h1><h1 id="sub-Text-Error">"${error.code}"</h1><h1 id="sub-Text">Please try again.</h1></div>`;
+                });
         } else {
             containerElement.innerHTML = '<div id="container"><img id="logo-Img" src="profile.jpg"><h1 id="main-Text">Invalid Verification Link</h1><h1 id="sub-Text">Please return to the app and try again.</h1></div>';
         }
-    </script>
+    </script>    
     <link rel="stylesheet" href="style.css">
     <title>Email Verification</title>
 </head>
